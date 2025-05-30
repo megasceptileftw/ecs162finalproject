@@ -63,11 +63,11 @@ export default function RPSPage() {
         <main className={styles.main}>
             {/* Images and text for selections in rps */}
             <div className={styles.gameChoices}>
-                {/* Player choice image */}
+                {/* Player choice image will fill with assets later*/}
                 {/* {<img src={`${playerChoice}.png`}/>} */}
                 <p>Player selected: {playerChoice}</p>
 
-                {/* Bot choice image */}
+                {/* Bot choice image - same */}
                 {/* {<img src={`${botChoice}.png`}/>} */}
                 <p>Bot selected: {botChoice}</p>
 
@@ -100,12 +100,9 @@ export default function RPSPage() {
 
             {/* Current stats for the player, displaying them at the bottom of the page */}
             <div className={styles.stats}>
-                {/* <p>Score: {score}</p>
-                <p>Win Rate: {winRate}</p>
-                <p>Win Streak: {winStreak}</p> */}
                 <p>Score: {stats.score}</p>
                 <p>Win Rate:{' '}
-                {/* just have a - if theres no games played yet */}
+                {/* just have a - when no winrate yet*/}
                 {stats.total > 0 ? ((stats.wins / stats.total) * 100).toFixed(0) + '%' : '-'}
                 </p>
                 <p>Win Streak: {stats.winStreak}</p>
