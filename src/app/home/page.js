@@ -2,33 +2,35 @@
 
 import { useRouter } from 'next/navigation';
 
-export default function HomePage() {
+export default function PostLoginHomePage() {
   const router = useRouter();
 
   return (
-    <>
-      <main className="min-h-screen flex flex-col items-center justify-between px-6 py-10 text-foreground">
-        {/* Top Navbar (Simulated Padding) */}
-        <div className="h-20 w-full" />
+    <main className="min-h-screen flex flex-col items-center justify-between px-6 py-10 text-black bg-white">
+      {/* Space for Navbar */}
+      <div className="h-20 w-full" />
 
-        {/* Center Title + Login Button */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center">
-          <h1 className="text-4xl font-bold mb-4">Rock Paper Scissors</h1>
-          <p className="text-lg max-w-md mb-6">
-            Ultimate rock paper scissors game! Track your score and play bots!
-          </p>
-          <button
-            onClick={() => router.push('/login')}
-            className="px-6 py-3 text-white bg-green-600 rounded-lg text-lg hover:bg-green-700 transition-transform transform hover:scale-105"
-          >
-            Login to Play
-          </button>
+      {/* User avatar + welcome */}
+      <div className="flex flex-col items-center gap-4 mb-10">
+        {/* Avatar circle */}
+        <div className="w-24 h-24 rounded-full border-2 border-gray-400 flex items-center justify-center text-3xl">
+          👤
         </div>
 
-        {/* Divider */}
-        <hr className="my-12 w-full max-w-3xl border-t border-gray-300 " />
+        <p className="text-lg font-medium">Welcome, User</p>
 
-        {/* Leaderboard Table */}
+        <button
+          onClick={() => router.push('/rps')}
+          className="mt-2 px-8 py-4 text-xl bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
+        >
+          Play
+        </button>
+      </div>
+
+      {/* Divider */}
+      <hr className="my-8 w-full max-w-3xl border-t border-gray-300" />
+
+      {/* Leaderboard Table */}
         <section className="w-full max-w-4xl pb-12">
           <h2 className="text-center text-2xl font-semibold mb-4">Global Leaderboard</h2>
           <div className="overflow-x-auto">
@@ -56,13 +58,6 @@ export default function HomePage() {
             </table>
           </div>
         </section>
-      </main>
-
-      {/* Footer (do we need this? 
-      <footer className="w-full text-center py-6 text-sm text-gray-500 ">
-        ECS 162
-      </footer>
-      */}
-    </>
+    </main>
   );
 }
