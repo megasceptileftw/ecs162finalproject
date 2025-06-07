@@ -1,1 +1,1 @@
-# ecs162finalproject
+# ecs162finalproject - RPS Game
