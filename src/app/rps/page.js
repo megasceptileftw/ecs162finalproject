@@ -1,5 +1,6 @@
 "use client"
 import { useState } from 'react'
+import Navbar from "@/components/navbar";
 
 const choices = ['rock', 'paper', 'scissors'] //string choices both for player and bot
 
@@ -59,6 +60,10 @@ export default function RPSPage() {
     }
 
     return (
+        <>
+
+        <Navbar />
+
         <main className="flex flex-col items-center justify-start p-8 gap-8">
             {/* Images and text for selections in rps */}
             <div className="flex gap-8 items-center">
@@ -107,5 +112,7 @@ export default function RPSPage() {
                 <p>Win Streak: {stats.winStreak}</p>
             </div>
         </main>
+
+        </>
     );
 }

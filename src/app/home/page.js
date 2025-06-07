@@ -1,14 +1,16 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Navbar from "@/components/navbar";
 
 export default function PostLoginHomePage() {
   const router = useRouter();
-
+``
   return (
+    <>
+      <Navbar />
+
     <main className="min-h-screen flex flex-col items-center justify-between px-6 py-10 text-black bg-white">
-      {/* Space for Navbar */}
-      <div className="h-20 w-full" />
 
       {/* User avatar + welcome */}
       <div className="flex flex-col items-center gap-4 mb-10">
@@ -59,5 +61,7 @@ export default function PostLoginHomePage() {
           </div>
         </section>
     </main>
+
+    </>
   );
 }

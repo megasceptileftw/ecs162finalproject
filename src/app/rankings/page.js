@@ -1,5 +1,6 @@
 'use client';
 import clsx from 'clsx';
+import Navbar from "@/components/navbar";
 
 export default function rankingsPage() {
   const currentUser = 'You'; // replace with auth user later
