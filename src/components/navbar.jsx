@@ -1,9 +1,11 @@
 //rafce
 'use client'
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import ProfileCard from './profileCard'
 
 const Navbar = () => {
+  const router = useRouter();
   let [displayProfile, setDisplayProfile] = useState('hidden')
   function toggleProfile() {
     if (displayProfile === 'hidden'){
@@ -13,11 +15,14 @@ const Navbar = () => {
     setDisplayProfile('hidden')
     }
   }
+  function handleRankingsClick() {
+    router.push('/rankings') 
+  }
   return (
     <nav className="flex justify-between items-center border-2 min-w-full min-h-20 rounded-md pl-3 pr-3">
         <div className='text-2xl font-semibold'>Rock Paper Scissors</div>
         <div className='flex justify-between gap-3 min-w-38'>
-            <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3'>Rankings</button>
+            <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3' onClick={handleRankingsClick}>Rankings</button>
             <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3' onClick={toggleProfile}>Profile</button>
             <ProfileCard displayType={displayProfile}/>
         </div>

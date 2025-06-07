@@ -25,8 +25,9 @@ export default function rankingsPage() {
   // or, from examples in docs: https://tailwindcss.com/docs/installation/using-vite
 
   return (
-    // make seperate divs for the screen and the contents 
-    // make the white background take up the whole screen
+    <><Navbar/>
+    {/* make seperate divs for the screen and the contents */}
+    {/* make the white background take up the whole screen */}
     <div className="min-h-screen bg-white p-10">
         {/*set the max width of the table to 64rem, or 1024 pixels, 
         centered horizontally, black text */}
@@ -81,5 +82,6 @@ export default function rankingsPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
