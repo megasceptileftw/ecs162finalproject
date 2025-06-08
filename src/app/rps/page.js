@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react'
-import styles from './page.module.css'
+import Navbar from "@/components/navbar";
 
 const choices = ['rock', 'paper', 'scissors'] //string choices both for player and bot
 
@@ -60,9 +60,13 @@ export default function RPSPage() {
     }
 
     return (
-        <main className={styles.main}>
+        <>
+
+        <Navbar />
+
+        <main className="flex flex-col items-center justify-start p-8 gap-8">
             {/* Images and text for selections in rps */}
-            <div className={styles.gameChoices}>
+            <div className="flex gap-8 items-center">
                 {/* Player choice image will fill with assets later*/}
                 {/* {<img src={`${playerChoice}.png`}/>} */}
                 <p>Player selected: {playerChoice}</p>
@@ -75,31 +79,31 @@ export default function RPSPage() {
             </div>
 
             {/* Game of rock-paper-scissors */}
-            <div className={styles.rps}>
+            <div className="flex gap-4">
                 {/* Button for choosing rock */}
                 <button
                 type="button"
-                className={styles.rpsButtons}
+                className="py-3 px-5 text-[1rem] border-none rounded bg-[#e6e3e3]"
                 onClick={() => handleChoice("rock")}
                 >Rock</button>
 
                 {/* Button for choosing paper */}
                 <button
                 type="button"
-                className={styles.rpsButtons}
+                className="py-3 px-5 text-[1rem] border-none rounded bg-[#e6e3e3]"
                 onClick={() => handleChoice("paper")}
                 >Paper</button>
 
                 {/* Button for choosing Scissors */}
                 <button
                 type="button"
-                className={styles.rpsButtons}
+                className="py-3 px-5 text-[1rem] border-none rounded bg-[#e6e3e3]"
                 onClick={() => handleChoice("scissors")}
                 >Scissors</button>
             </div>
 
             {/* Current stats for the player, displaying them at the bottom of the page */}
-            <div className={styles.stats}>
+            <div className="flex gap-6 text-[1.1rem]">
                 <p>Score: {stats.score}</p>
                 <p>Win Rate:{' '}
                 {/* just have a - when no winrate yet*/}
@@ -108,5 +112,7 @@ export default function RPSPage() {
                 <p>Win Streak: {stats.winStreak}</p>
             </div>
         </main>
+
+        </>
     );
 }
