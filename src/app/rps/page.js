@@ -1,6 +1,6 @@
 "use client"
-import { useState } from 'react'
-import Navbar from "@/components/navbar";
+import { useState, useRef, useEffect } from 'react'
+import ChoiceAnimation from "../components/animation"
 
 const choices = ['rock', 'paper', 'scissors'] //string choices both for player and bot
 
@@ -46,6 +46,8 @@ export default function RPSPage() {
     // Found this on w3schools tutorials for react: https://www.w3schools.com/react/react_usestate.asp
     const [playerChoice, setPlayerChoice] = useState(null);
     const [botChoice, setBotChoice] = useState(null);
+    const playerAnimRef = useRef(null)
+    const botAnimRef = useRef(null)
 
     //initialize stats
     const [stats, setStats] = useState({score: 0, winStreak: 0, wins: 0, total: 0,});
@@ -55,24 +57,24 @@ export default function RPSPage() {
         setPlayerChoice(pick) //set player pick
         const botPick = getRandomChoice() //get bot pick
         setBotChoice(botPick)
+
+        playerAnimRef.current?.replay(pick) //replay whenever we click again
+        botAnimRef.current?.replay(botPick)
         const result = determineResult(pick, botPick) //compare
         setStats(prev => updateStats(prev, result)) //prev so we never read an empty stats obj
     }
 
     return (
-        <>
-
-        <Navbar />
-
         <main className="flex flex-col items-center justify-start p-8 gap-8">
             {/* Images and text for selections in rps */}
             <div className="flex gap-8 items-center">
-                {/* Player choice image will fill with assets later*/}
-                {/* {<img src={`${playerChoice}.png`}/>} */}
+                {/* Animation jsx element based on each choice, taken care of in button handlr */}
+                <ChoiceAnimation ref ={playerAnimRef}/>
                 <p>Player selected: {playerChoice}</p>
 
                 {/* Bot choice image - same */}
-                {/* {<img src={`${botChoice}.png`}/>} */}
+                {/*same as above*/}
+                <ChoiceAnimation ref ={botAnimRef}/>
                 <p>Bot selected: {botChoice}</p>
 
                 {/* Underneath imgs probably include text declaring the winner */}
@@ -112,7 +114,5 @@ export default function RPSPage() {
                 <p>Win Streak: {stats.winStreak}</p>
             </div>
         </main>
-
-        </>
     );
 }
