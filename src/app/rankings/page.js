@@ -1,17 +1,52 @@
 'use client';
 import clsx from 'clsx';
 import Navbar from "@/components/navbar";
+import { useEffect, useState } from 'react';
+
 
 export default function rankingsPage() {
-  const currentUser = 'You'; // replace with auth user later
+const currentUser = 'You'; // replace with auth user later
 
-  // temporary data, until the database works 
-  const tempData = [
-    { username: 'Player1', rank: 1, elo: 1520, winRate: 0.75, gamesPlayed: 100 },
-    { username: 'Player2', rank: 2, elo: 1480, winRate: 0.72, gamesPlayed: 120 },
-    { username: 'You', rank: 3, elo: 1440, winRate: 0.68, gamesPlayed: 95 },
-    { username: 'Player3', rank: 4, elo: 140, winRate: 0.08, gamesPlayed: 5 },
-  ];
+// use useEffect to fetch data as shown here:
+// https://www.geeksforgeeks.org/reactjs/fetching-data-from-an-api-with-useeffect-and-usestate-hook/
+// makes a variable called players to store the list of top players
+const [players, setPlayers] = useState([]);
+
+  // runs once when the page loads, is used to get data from database
+  useEffect(() => {
+    // fetches the data from the backend api route 
+    // instead of directly from supabase
+    fetch('/api/allPlayerStats')
+      .then((res) => res.json())
+      // takes the data we got and reformat for our table
+      .then((data) => {
+        // go through each player data using .map,
+        const playerList = data.map((player, index) => {
+          // calculate how many games they played,
+          const totalGames = player.wins + player.losses + player.draws;
+          // and their win rate 
+          let winRate;
+          if (totalGames > 0) {
+            winRate = player.wins / totalGames;
+          } else {
+            winRate = 0;
+          }
+
+          // make a new object w/ player info in the format we want
+          return {
+            username: player.username,
+            rank: index + 1,
+            elo: player.score,
+            winRate,
+            gamesPlayed: totalGames,
+          };
+        });
+
+        // save list of players so we can show it on the page
+        setPlayers(playerList);
+      });
+  }, []);
+
 
   // function to return a award emoji if player is in top 3, or null if not
   function medalTopThree(rank) {
@@ -25,8 +60,10 @@ export default function rankingsPage() {
   // or, from examples in docs: https://tailwindcss.com/docs/installation/using-vite
 
   return (
-    // make seperate divs for the screen and the contents 
-    // make the white background take up the whole screen
+    <>
+    <Navbar/>
+     {/* make seperate divs for the screen and the contents */}
+     {/* make the white background take up the whole screen*/}
     <div className="min-h-screen bg-white p-10">
         {/*set the max width of the table to 64rem, or 1024 pixels, 
         centered horizontally, black text */}
@@ -55,7 +92,7 @@ export default function rankingsPage() {
             {/*loop through the data using .map, and use it to fill out the cells in the row,  
             similar to here: https://www.geeksforgeeks.org/how-to-create-a-table-in-reactjs/  */}
             <tbody>
-              {tempData.map((player, index) => (
+              {players.map((player, index) => (
                 <tr key={player.username}
                 // use clsx for conditional styling
                 // https://nextjs.org/learn/dashboard-app/css-styling
@@ -81,5 +118,6 @@ export default function rankingsPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
