@@ -6,17 +6,16 @@ import { createClient } from '@/utils/supabase/server'
 export async function GET() {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.getUser();
+  const { data: data, error: gameError } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    return Response.json({ error: 'Error fetching dummy data' }, { status: 500 });
+    return Response.json({ error: 'User not logged in' }, { status: 500 });
   }
   const user = data.user;
 
-  const { gameHistory, fetchError } = await supabase.from('game_history').select('*').eq('user_id', user.id);
+  const { data: gameHistory, error: fetchError } = await supabase.from('game_history').select('*').eq('user_id', user.id);
   if (fetchError) {
-    return Response.json({ fetchError: 'Error fetching dummy data' }, { status: 500 });
+    return Response.json({ fetchError: 'Error fetching game history data' }, { status: 500 });
   }
-
   return Response.json(gameHistory);
 }
 
@@ -27,20 +26,20 @@ export async function POST(request) {
 
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    return Response.json({ error: 'Error fetching dummy data' }, { status: 500 });
+    return Response.json({ error: 'User not logged in' }, { status: 500 });
   }
   const user = data.user;
 
-  const { data: dummyData, error: dummyError } = await supabase.from('dummy').insert({
+  const { data: result, error: savingError } = await supabase.from('game_history').insert({
     user_id: user.id,
-    text: res.text,
+    player_choice: res.player_choice,
+    bot_choice: res.bot_choice,
+    result: res.result,
   });
-
-  if (dummyError) {
-    return Response.json({ error: 'Error creating dummy data' }, { status: 500 });
+  if (savingError) {
+    return Response.json({ error: 'Error creating game history data' }, { status: 500 });
   }
-
-  return Response.json(dummyData);
+  return Response.json(result);
 }
 
 // export async function PUT(request) {
