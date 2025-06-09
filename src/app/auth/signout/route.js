@@ -12,10 +12,14 @@ export async function POST(req) {
 
   if (user) {
     await supabase.auth.signOut()
+    revalidatePath('/', 'layout')
+    return NextResponse.redirect(new URL('/login', req.url), {
+      status: 302,
+    })
   }
 
   revalidatePath('/', 'layout')
-  return NextResponse.redirect(new URL('/login', req.url), {
-    status: 302,
-  })
+  return NextResponse.json({msg: 'No user logged in'}, {
+    status: 400,
+  });
 }

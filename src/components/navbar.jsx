@@ -13,6 +13,7 @@ const Navbar = () => {
     setDisplayProfile('hidden')
     }
   }
+
   return (
     <nav className="flex justify-between items-center border-2 min-w-full min-h-20 rounded-md pl-3 pr-3">
         <div className='text-2xl font-semibold'>Rock Paper Scissors</div>
