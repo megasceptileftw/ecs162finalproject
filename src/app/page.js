@@ -20,7 +20,7 @@ export default function HomePage() {
           </p>
           <button
             onClick={() => router.push('/login')}
-            className="px-6 py-3 text-white bg-green-600 rounded-lg text-lg hover:bg-green-700 transition-transform transform hover:scale-105"
+            className="btn-emerald"
           >
             Login to Play
           </button>

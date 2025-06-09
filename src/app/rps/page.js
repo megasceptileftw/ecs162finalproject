@@ -83,21 +83,21 @@ export default function RPSPage() {
                 {/* Button for choosing rock */}
                 <button
                 type="button"
-                className="py-3 px-5 text-[1rem] border-none rounded bg-[#e6e3e3]"
+                className="btn-sky"
                 onClick={() => handleChoice("rock")}
                 >Rock</button>
 
                 {/* Button for choosing paper */}
                 <button
                 type="button"
-                className="py-3 px-5 text-[1rem] border-none rounded bg-[#e6e3e3]"
+                className="btn-sky"
                 onClick={() => handleChoice("paper")}
                 >Paper</button>
 
                 {/* Button for choosing Scissors */}
                 <button
                 type="button"
-                className="py-3 px-5 text-[1rem] border-none rounded bg-[#e6e3e3]"
+                className="btn-sky"
                 onClick={() => handleChoice("scissors")}
                 >Scissors</button>
             </div>

@@ -23,7 +23,7 @@ export default function PostLoginHomePage() {
 
         <button
           onClick={() => router.push('/rps')}
-          className="mt-2 px-8 py-4 text-xl bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
+          className="btn-emerald"
         >
           Play
         </button>

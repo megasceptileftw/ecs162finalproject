@@ -29,7 +29,9 @@ export default function LoginPage() {
           placeholder="Enter your email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded"
+          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded 
+                    focus:outline-none focus:ring-2 focus:ring-green-400 
+                    focus:border-transparent transition-all duration-150"
         />
 
         <label className="block text-sm font-medium mb-1">Password</label>
@@ -38,12 +40,14 @@ export default function LoginPage() {
           placeholder="Enter your password"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          className="w-full px-4 py-2 mb-6 border border-gray-300 rounded"
+          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded 
+                    focus:outline-none focus:ring-2 focus:ring-green-400 
+                    focus:border-transparent transition-all duration-150"
         />
 
         <button
           onClick={handleLogin}
-          className="w-full py-2 text-white bg-green-600 rounded hover:bg-green-700 transition"
+            className="btn-emerald"
         >
           Continue
         </button>

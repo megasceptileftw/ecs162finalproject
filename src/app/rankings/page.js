@@ -62,7 +62,7 @@ export default function rankingsPage() {
                 // https://nextjs.org/learn/dashboard-app/css-styling
                 className={clsx(
                     // put a border on top of them all and make grey on hover
-                    'border-t hover:bg-gray-100',
+                    'border-t transition-all duration-200 ease-out hover:bg-gray-100 hover:shadow-sm hover:-translate-y-0.5',
                     // make every other one light gray by default
                     index % 2 === 1 && 'even:bg-gray-50',
                     // if the username is the logged in user, make it yellow

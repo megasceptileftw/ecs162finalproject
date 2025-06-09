@@ -1,4 +1,3 @@
-//rafce
 'use client'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -7,27 +6,43 @@ import ProfileCard from './profileCard'
 const Navbar = () => {
   const router = useRouter();
   let [displayProfile, setDisplayProfile] = useState('hidden')
+  
   function toggleProfile() {
     if (displayProfile === 'hidden'){
       setDisplayProfile('flex')
     }
     else{
-    setDisplayProfile('hidden')
+      setDisplayProfile('hidden')
     }
   }
+
   function handleRankingsClick() {
-    router.push('/rankings') 
+    router.push('/rankings');
   }
+
+  function handleHomeClick() {
+    router.push('/');
+  }
+
   return (
-    <nav className="flex justify-between items-center border-2 min-w-full min-h-20 rounded-md pl-3 pr-3">
-        <div className='text-2xl font-semibold'>Rock Paper Scissors</div>
-        <div className='flex justify-between gap-3 min-w-38'>
-            <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3' onClick={handleRankingsClick}>Rankings</button>
-            <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3' onClick={toggleProfile}>Profile</button>
-            <ProfileCard displayType={displayProfile}/>
-        </div>
+    <nav className="backdrop-blur-md bg-white/70 shadow-md rounded-xl px-6 py-4 m-4 
+                    flex items-center justify-between sticky top-0 z-50">
+      
+      {/* make text clickable */}
+      <button
+        onClick={handleHomeClick}
+        className="text-2xl font-bold tracking-tight text-gray-800 
+                   hover:text-green-600 transition-colors 
+                   focus:outline-none"
+      >Rock Paper Scissors</button>
+
+      <div className="flex justify-between gap-3 min-w-38">
+        <button className="btn-slate" onClick={handleRankingsClick}>Rankings</button>
+        <button className="btn-slate" onClick={toggleProfile}>Profile</button>
+        <ProfileCard displayType={displayProfile}/>
+      </div>
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
