@@ -6,11 +6,11 @@ import { createClient } from '@/utils/supabase/server'
 export async function GET() {
   const supabase = await createClient();
 
-  const { data: data, error: gameError } = await supabase.auth.getUser();
-  if (error || !data?.user) {
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData?.user) {
     return Response.json({ error: 'User not logged in' }, { status: 500 });
   }
-  const user = data.user;
+  const user = userData.user;
 
   const { data: gameHistory, error: fetchError } = await supabase.from('game_history').select('*').eq('user_id', user.id);
   if (fetchError) {
@@ -39,13 +39,24 @@ export async function POST(request) {
   if (savingError) {
     return Response.json({ error: 'Error creating game history data' }, { status: 500 });
   }
-  return Response.json(result);
+  return Response.json({msg: "play inserted successfully", result});
 }
 
-// export async function PUT(request) {
 
-// }
-
-// export async function DELETE(request) {
-
-// }
+export async function DELETE(request) {
+    const res = await request.json();
+    
+    const supabase = await createClient();
+    
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data?.user) {
+        return Response.json({ error: 'User not logged in' }, { status: 500 });
+    }
+    const user = data.user;
+    
+    const { data: result, error: deleteError } = await supabase.from('game_history').delete().eq('user_id', user.id);
+    if (deleteError) {
+        return Response.json({ error: 'Error deleting game history data' }, { status: 500 });
+    }
+    return Response.json({msg: "play deleted successfully", result});
+}
