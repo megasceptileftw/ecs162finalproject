@@ -1,6 +1,7 @@
 "use client"
 import { useState, useRef, useEffect } from 'react'
 import ChoiceAnimation from "../components/animation"
+import Navbar from '@/components/navbar'
 
 const choices = ['rock', 'paper', 'scissors'] //string choices both for player and bot
 
@@ -65,16 +66,21 @@ export default function RPSPage() {
     }
 
     return (
+        <>
+
+        <Navbar />
+
         <main className="flex flex-col items-center justify-start p-8 gap-8">
             {/* Images and text for selections in rps */}
             <div className="flex gap-8 items-center">
-                {/* Animation jsx element based on each choice, taken care of in button handlr */}
-                <ChoiceAnimation ref ={playerAnimRef}/>
+                {/* Player choice image will fill with assets later*/}
+                {/* {<img src={`${playerChoice}.png`}/>} */}
+                <ChoiceAnimation ref={playerAnimRef}/>
                 <p>Player selected: {playerChoice}</p>
 
                 {/* Bot choice image - same */}
-                {/*same as above*/}
-                <ChoiceAnimation ref ={botAnimRef}/>
+                {/* {<img src={`${botChoice}.png`}/>} */}
+                <ChoiceAnimation ref={botAnimRef}/>
                 <p>Bot selected: {botChoice}</p>
 
                 {/* Underneath imgs probably include text declaring the winner */}
@@ -114,5 +120,7 @@ export default function RPSPage() {
                 <p>Win Streak: {stats.winStreak}</p>
             </div>
         </main>
+
+        </>
     );
 }
