@@ -5,63 +5,64 @@ import Navbar from "@/components/navbar";
 
 export default function PostLoginHomePage() {
   const router = useRouter();
-``
+
   return (
     <>
       <Navbar />
 
-    <main className="min-h-screen flex flex-col items-center justify-between px-6 py-10 text-black bg-white">
+      <main className="w-full max-w-5xl mx-auto px-4 min-h-screen flex flex-col items-center justify-between py-10 text-white font-[var(--font-press-start)]">
+        
+        {/* Welcome + Avatar Section */}
+        <div className="flex-grow flex flex-col items-center justify-center text-center mb-12">
+          <div className="w-24 h-24 rounded-full border-2 border-pink-500 flex items-center justify-center text-3xl mb-4">
+            👤
+          </div>
+          <p className="text-green-400 text-sm mb-6">Welcome, User</p>
 
-      {/* User avatar + welcome */}
-      <div className="flex flex-col items-center gap-4 mb-10">
-        {/* Avatar circle */}
-        <div className="w-24 h-24 rounded-full border-2 border-gray-400 flex items-center justify-center text-3xl">
-          👤
+          <button
+            onClick={() => router.push('/rps')}
+            className="px-6 py-3 text-black bg-pink-500 rounded-lg text-lg font-bold hover:bg-pink-400 transition"
+          >
+            Play
+          </button>
         </div>
 
-        <p className="text-lg font-medium">Welcome, User</p>
 
-        <button
-          onClick={() => router.push('/rps')}
-          className="mt-2 px-8 py-4 text-xl bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
-        >
-          Play
-        </button>
-      </div>
-
-      {/* Divider */}
-      <hr className="my-8 w-full max-w-3xl border-t border-gray-300" />
-
-      {/* Leaderboard Table */}
-        <section className="w-full max-w-4xl pb-12">
-          <h2 className="text-center text-2xl font-semibold mb-4">Global Leaderboard</h2>
-          <div className="overflow-x-auto">
-            <table
-              className="w-full table-auto bg-white  text-sm rounded shadow border border-gray-300  text-black "
-              aria-label="Top 10 leaderboard"
-            >
-              <thead className="bg-gray-200  text-left">
-                <tr>
-                  <th className="p-2">User</th>
-                  <th className="p-2">Score</th>
-                  <th className="p-2">Win Rate</th>
-                  <th className="p-2">Streak</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 ">
-                <tr className="hover:bg-gray-50 transition">
-                  <td className="p-2">User1</td>
-                  <td className="p-2">20</td>
-                  <td className="p-2">75.5%</td>
-                  <td className="p-2">150</td>
-                </tr>
-                {/* Add more rows dynamically later */}
-              </tbody>
-            </table>
-          </div>
+        {/* Leaderboard */}
+        <section className="w-full max-w-xl border-2 border-pink-500 rounded-xl p-4 text-white">
+          <h2 className="text-center text-xl text-green-400 font-bold mb-4">GLOBAL LEADERBOARD</h2>
+          <table className="w-full text-center text-sm">
+            <thead className="bg-pink-500 text-black font-bold">
+              <tr>
+                <th className="p-2">User</th>
+                <th className="p-2">Score</th>
+                <th className="p-2">Win Rate</th>
+                <th className="p-2">Streak</th>
+              </tr>
+            </thead>
+            <tbody className="bg-black text-white divide-y divide-pink-800">
+              <tr>
+                <td className="p-2">🥇 User</td>
+                <td className="p-2">30</td>
+                <td className="p-2">75.0%</td>
+                <td className="p-2">4</td>
+              </tr>
+              <tr>
+                <td className="p-2">🥈 User</td>
+                <td className="p-2">25</td>
+                <td className="p-2">62.5%</td>
+                <td className="p-2">1</td>
+              </tr>
+              <tr>
+                <td className="p-2">🥉 User</td>
+                <td className="p-2">10</td>
+                <td className="p-2">60.0%</td>
+                <td className="p-2">2</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
-    </main>
-
+      </main>
     </>
   );
 }
