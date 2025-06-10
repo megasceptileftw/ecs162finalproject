@@ -61,6 +61,12 @@ export default function LoginPage() {
           >
             Continue
           </button>
+          <Link
+          href="/register"
+          className="block mt-6 text-center text-xs text-pink-300 hover:underline transition"
+        >
+          Create Account
+        </Link>
         </div>
       </main>
     </>
