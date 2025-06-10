@@ -40,10 +40,11 @@ const ProfileCard = ({ displayType }) => {
       <div className="self-center">Wins: {stats.wins}</div>
       <div className="self-center">Losses: {stats.losses}</div>
       <div className="self-center">Draws: {stats.draws}</div>
-      <button className="self-center border rounded-sm mb-2 p-1 text-sm" onClick={navigateHistory}>Match History</button>
-      <button className="self-center border rounded-sm p-1 text-sm text-red-600" onClick={logout}>Logout</button>
+      <button className="self-center border rounded-sm mb-2 p-1 text-sm
+      active:scale-95 focus:ring-2 hover:bg-gray-800 focus:outline-none focus:ring-blue-500 transition transform" onClick={navigateHistory}>Match History</button>
+      <button className="self-center border rounded-sm p-1 text-sm text-red-600
+      active:scale-95 focus:ring-2 hover:bg-gray-800 focus:outline-none focus:ring-blue-500 transition transform" onClick={logout}>Logout</button>
     </div>
   )
 }
-
 export default ProfileCard

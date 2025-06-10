@@ -57,7 +57,8 @@ export default function HomePage() {
           {/* - Login */}
           <button
             onClick={() => router.push('/login')}
-            className="px-6 py-3 text-black bg-pink-500 rounded-lg text-lg font-bold hover:bg-pink-400 transition"
+            className="px-6 py-3 text-black bg-pink-500 rounded-lg text-lg font-bold hover:bg-pink-400
+            active:scale-95 focus:ring-2 hover:bg-pink-400 focus:outline-none focus:ring-blue-500 transition transform"
           >
             Login to Play
           </button>

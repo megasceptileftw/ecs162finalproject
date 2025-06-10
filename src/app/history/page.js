@@ -47,7 +47,7 @@ export default function historyPage() {
         centered horizontally */}
       <div className="max-w-5xl mx-auto">
         {/* large bold title */}
-        <h1 className="text-3xl text-green-400 mb-2"> Match History📈</h1>
+        <h1 className="text-3xl text-green-400 mb-2"> 📈Match History</h1>
         {/* subtext, pink, spacing on the bottom and top */}
         <p className="text-pink-300 text-xs mb-8 mt-1">History of all matches you have played</p>
 

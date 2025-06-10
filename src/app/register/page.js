@@ -53,7 +53,8 @@ export default function SignUpPage() {
 
         <button
           onClick={handleSignUp}
-          className="w-full py-3 bg-pink-500 hover:bg-pink-400 text-black rounded-lg transition font-bold tracking-wider"
+          className="w-full py-3 bg-pink-500 text-black rounded-lg transition font-bold tracking-wider
+          active:scale-95 focus:ring-2 hover:bg-pink-400 focus:outline-none focus:ring-blue-500 transform"
         >
           Create Account
         </button>

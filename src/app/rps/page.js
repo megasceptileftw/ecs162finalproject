@@ -151,21 +151,24 @@ export default function RPSPage() {
                 {/* Button for choosing rock */}
                 <button
                 type="button"
-                className="py-3 px-5 text-[1rem] border-none rounded bg-[#e6e3e3]"
+                className="py-3 px-5 text-[1rem] text-[#00FF00] border-none rounded bg-[#cc00cc]
+                active:scale-95 focus:ring-2 hover:bg-[#FF00FF] focus:outline-none focus:ring-blue-500 transform"
                 onClick={() => handleChoice("rock")}
                 >Rock</button>
 
                 {/* Button for choosing paper */}
                 <button
                 type="button"
-                className="py-3 px-5 text-[1rem] border-none rounded bg-[#e6e3e3]"
+                className="py-3 px-5 text-[1rem] text-[#FF00FF] border-none rounded bg-[#00cccc]
+                active:scale-95 focus:ring-2 hover:bg-[#00FFFF] focus:outline-none focus:ring-blue-500 transform"
                 onClick={() => handleChoice("paper")}
                 >Paper</button>
 
                 {/* Button for choosing Scissors */}
                 <button
                 type="button"
-                className="py-3 px-5 text-[1rem] border-none rounded bg-[#e6e3e3]"
+                className="py-3 px-5 text-[1rem] text-[#00FFFF] border-none rounded bg-[#cc7e00]
+                active:scale-95 focus:ring-2 hover:bg-[#FF9D00] focus:outline-none focus:ring-blue-500 transform"
                 onClick={() => handleChoice("scissors")}
                 >Scissors</button>
             </div>
