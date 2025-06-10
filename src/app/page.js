@@ -1,6 +1,7 @@
 'use client';
 
 import Image from "next/image";
+import Link from "next/link";
 import Navbar from "@/components/navbar";
 import { useRouter } from 'next/navigation';
 
@@ -24,6 +25,11 @@ export default function HomePage() {
           >
             Login to Play
           </button>
+        </div>
+
+        {/* Simple navigation links */}
+        <div>
+          <Link href="/login">Login</Link> | <Link href="/account">Account</Link>
         </div>
 
         {/* Divider */}
