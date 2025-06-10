@@ -121,6 +121,5 @@ const [players, setPlayers] = useState([]);
         </div>
       </div>
     </>
-    </>
   );
 }
