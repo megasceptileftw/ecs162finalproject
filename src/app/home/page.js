@@ -35,7 +35,7 @@ export default function PostLoginHomePage() {
     <>
       <Navbar />
 
-      <main className="w-full max-w-5xl mx-auto px-4 min-h-screen flex flex-col items-center justify-between py-10 text-white font-[var(--font-press-start)]">
+      <main className="w-full max-w-5xl mx-auto px-4 min-h-screen flex flex-col items-center justify-start py-10 text-white font-[var(--font-press-start)]">
         
         {/* Welcome + Avatar Section */}
         <div className="flex-grow flex flex-col items-center justify-center text-center mb-12">

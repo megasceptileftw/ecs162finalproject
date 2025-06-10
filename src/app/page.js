@@ -37,7 +37,7 @@ export default function HomePage() {
     <>
       <Navbar />
 
-      <main className="min-h-screen flex flex-col items-center justify-between px-6 py-10 text-foreground font-[var(--font-geist-sans)]">
+      <main className="min-h-screen flex flex-col items-center justify-start px-6 py-10 text-foreground font-[var(--font-geist-sans)]">
         {/* Center Title + Login Button */}
         <div className="flex flex-col items-center justify-center text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Rock Paper Scissors</h1>
@@ -63,15 +63,7 @@ export default function HomePage() {
           </button>
         </div>
 
-        {/* Simple navigation links */}
-        <div>
-          <Link href="/login">Login</Link> | <Link href="/account">Account</Link>
-        </div>
 
-        {/* Divider */}
-        {/*
-        <hr className="my-12 w-full max-w-3xl border-t border-gray-300" />
-        */}
         
 
         {/* Leaderboard Table */}
