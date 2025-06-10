@@ -40,11 +40,18 @@ const Navbar = () => {
     fetchUser();
   }, []);
   
+  function handleTitleClick() {
+  if (user) {
+    router.push('/home');
+  } else {
+    router.push('/');
+  }
+}
   
 
   return (
-    <nav className="flex justify-between items-center border-2 min-w-full min-h-20 rounded-md pl-3 pr-3 sticky top-0">
-        <div className='text-2xl font-semibold'>Rock Paper Scissors</div>
+    <nav className='flex justify-between items-center border-2 min-w-full min-h-20 rounded-md pl-3 pr-3 sticky top-0 bg-black'>
+        <button className='text-2xl font-semibold hover:text-blue-600 transition-colors' onClick={handleTitleClick} >Rock Paper Scissors</button>
         <div className='flex justify-between gap-3 min-w-38'>
             <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3'onClick={goToRankings}>Rankings</button>
             {user ? (

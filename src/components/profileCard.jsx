@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+
+
 
 const ProfileCard = ({ displayType }) => {
+  const router = useRouter();
   let classType = `${displayType} flex-col justify-center absolute mt-18 border-2 p-6`
 
   const [stats, setStats] = useState()
@@ -10,6 +15,10 @@ const ProfileCard = ({ displayType }) => {
       .then((data) => setStats(data[0]))
   }, [])
   if (!stats) return null
+
+  function navigateHistory() {
+    router.push('/history');
+  }
 
 
   async function logout() {
@@ -29,7 +38,7 @@ const ProfileCard = ({ displayType }) => {
       <div className="self-center">Wins: {stats.wins}</div>
       <div className="self-center">Losses: {stats.losses}</div>
       <div className="self-center">Draws: {stats.draws}</div>
-      <button className="self-center border rounded-sm mb-2 p-1 text-sm">Match History</button>
+      <button className="self-center border rounded-sm mb-2 p-1 text-sm" onClick={navigateHistory}>Match History</button>
       <button className="self-center border rounded-sm p-1 text-sm text-red-600" onClick={logout}>Logout</button>
     </div>
   )

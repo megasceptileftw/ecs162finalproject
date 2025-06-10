@@ -5,6 +5,30 @@ import Navbar from "@/components/navbar";
 
 export default function PostLoginHomePage() {
   const router = useRouter();
+  
+  const [topThree, setTopThree] = useState([
+      { username: 'player1', score: 0, winRate: '0%', streak: 0 },
+      { username: 'player2', score: 0, winRate: '0%', streak: 0 },
+      { username: 'player3', score: 0, winRate: '0%', streak: 0 },
+    ]);
+  
+    useEffect(() => {
+      fetch('/api/allPlayerStats')
+        .then(res => res.json())
+        .then(data => {
+          const sorted = data.map(player => {
+              const winRate = (player.wins / (player.wins + player.losses + player.draws) * 100 ).toFixed(0) + '%';
+              return {
+                username: player.username,
+                score: player.score,
+                winRate,
+                streak: player.current_win_streak || 0,
+              };
+            })
+  
+          setTopThree(sorted);
+        });
+    }, []);
 
   return (
     <>
@@ -29,7 +53,7 @@ export default function PostLoginHomePage() {
 
 
         {/* Leaderboard */}
-        <section className="w-full max-w-xl border-2 border-pink-500 rounded-xl p-4 text-white">
+        <section className="w-full max-w-3xl border-2 border-pink-500 rounded-xl p-4 text-white mt-10">
           <h2 className="text-center text-xl text-green-400 font-bold mb-4">GLOBAL LEADERBOARD</h2>
           <table className="w-full text-center text-sm">
             <thead className="bg-pink-500 text-black font-bold">
@@ -42,22 +66,22 @@ export default function PostLoginHomePage() {
             </thead>
             <tbody className="bg-black text-white divide-y divide-pink-800">
               <tr>
-                <td className="p-2">🥇 User</td>
-                <td className="p-2">30</td>
-                <td className="p-2">75.0%</td>
-                <td className="p-2">4</td>
+                <td className="p-2">🥇 {topThree[0].username}</td>
+                <td className="p-2">{topThree[0].score}</td>
+                <td className="p-2">{topThree[0].winRate}</td>
+                <td className="p-2">{topThree[0].streak}</td>
               </tr>
               <tr>
-                <td className="p-2">🥈 User</td>
-                <td className="p-2">25</td>
-                <td className="p-2">62.5%</td>
-                <td className="p-2">1</td>
+                <td className="p-2">🥈 {topThree[1].username}</td>
+                <td className="p-2">{topThree[1].score}</td>
+                <td className="p-2">{topThree[1].winRate}</td>
+                <td className="p-2">{topThree[1].streak}</td>
               </tr>
               <tr>
-                <td className="p-2">🥉 User</td>
-                <td className="p-2">10</td>
-                <td className="p-2">60.0%</td>
-                <td className="p-2">2</td>
+                <td className="p-2">🥉 {topThree[2].username}</td>
+                <td className="p-2">{topThree[2].score}</td>
+                <td className="p-2">{topThree[2].winRate}</td>
+                <td className="p-2">{topThree[2].streak}</td>
               </tr>
             </tbody>
           </table>

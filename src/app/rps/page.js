@@ -112,6 +112,17 @@ export default function RPSPage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newStats)
         })
+
+        // record the game for history
+        await fetch("/api/gameHistory", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                player_choice: pick,
+                bot_choice: botPick,
+                result: result
+            })
+        })
     }
 
     return (

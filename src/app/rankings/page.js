@@ -5,46 +5,55 @@ import { useEffect, useState } from 'react';
 
 
 export default function rankingsPage() {
-const currentUser = 'You'; // replace with auth user later
+  const [currentUser, setCurrentUser] = useState('You');
 
-// use useEffect to fetch data as shown here:
-// https://www.geeksforgeeks.org/reactjs/fetching-data-from-an-api-with-useeffect-and-usestate-hook/
-// makes a variable called players to store the list of top players
-const [players, setPlayers] = useState([]);
+  // use useEffect to fetch data as shown here:
+  // https://www.geeksforgeeks.org/reactjs/fetching-data-from-an-api-with-useeffect-and-usestate-hook/
+  // makes a variable called players to store the list of top players
+  const [players, setPlayers] = useState([]);
 
   // runs once when the page loads, is used to get data from database
   useEffect(() => {
-    // fetches the data from the backend api route 
-    // instead of directly from supabase
-    fetch('/api/allPlayerStats')
-      .then((res) => res.json())
-      // takes the data we got and reformat for our table
-      .then((data) => {
-        // go through each player data using .map,
-        const playerList = data.map((player, index) => {
-          // calculate how many games they played,
-          const totalGames = player.wins + player.losses + player.draws;
-          // and their win rate 
-          let winRate;
-          if (totalGames > 0) {
-            winRate = player.wins / totalGames;
-          } else {
-            winRate = 0;
-          }
+    fetch('/api/playerStats')
+      .then(res => res.json())
+      .then(data => {
+      if (Array.isArray(data)) {
+        const userEmail = data[0].username;
+        setCurrentUser(userEmail);
+      } 
 
-          // make a new object w/ player info in the format we want
-          return {
-            username: player.username,
-            rank: index + 1,
-            elo: player.score,
-            winRate,
-            gamesPlayed: totalGames,
-          };
-        });
+        // fetches the data from the backend api route 
+        // instead of directly from supabase
+        fetch('/api/allPlayerStats')
+          .then((res) => res.json())
+          // takes the data we got and reformat for our table
+          .then((data) => {
+            // go through each player data using .map,
+            const playerList = data.map((player, index) => {
+              // calculate how many games they played,
+              const totalGames = player.wins + player.losses + player.draws;
+              // and their win rate 
+              let winRate;
+              if (totalGames > 0) {
+                winRate = player.wins / totalGames;
+              } else {
+                winRate = 0;
+              }
 
-        // save list of players so we can show it on the page
-        setPlayers(playerList);
-      });
+              // make a new object w/ player info in the format we want
+              return {
+                username: player.username,
+                rank: index + 1,
+                elo: player.score,
+                winRate,
+                gamesPlayed: totalGames,
+              };
+            });
+
+            // save list of players so we can show it on the page
+            setPlayers(playerList);
+          });
+    });
   }, []);
 
 
