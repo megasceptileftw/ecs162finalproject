@@ -21,23 +21,41 @@ function determineResult(player, bot) {
 }
 
 //takes in previous stats, update score/wins/winstreak etc and wwe get a whole new stats obj out of it
-function updateStats(stats, result) {
-    const { score, winStreak, wins, total } = stats
+function updateStats(prev, result) {
+    const {
+        username,
+        score,
+        wins,
+        losses,
+        draws,
+        total_games,
+        current_win_streak,
+        best_win_streak
+    } = prev
 
-    let newScore = score
-    let newWinStreak = result === 'win' ? winStreak + 1 : 0 //no win means reset
-    let newWins = wins + (result === 'win' ? 1 : 0)
-    let newTotal = total + (result === 'draw' ? 0 : 1)
+    const newTotalGames = total_games + 1
+    const newWins = wins + (result === "win" ? 1 : 0)
+    const newLosses = losses + (result === "lose" ? 1 : 0)
+    const newDraws = draws + (result === "draw" ? 1 : 0)
     
-    if (result === 'win') newScore += 1
-    if (result === 'lose') newScore -= 1
-    if (newScore < 0) newScore = 0 //so we dont get negative score
+    const newCurrentStreak = (result === "win") ? current_win_streak + 1 : 0
+    const newBestStreak = Math.max(best_win_streak, newCurrentStreak)
+
+    // 3) score logic:
+    let newScore = score
+    if (result === "win")  newScore += 1
+    if (result === "lose") newScore -= 1
+    if (newScore < 0)      newScore = 0
     
     return { //all updated stats
-        score:newScore,
-        winStreak:newWinStreak,
-        wins:newWins,
-        total:newTotal,
+        username: username,
+        score: newScore,
+        wins: newWins,
+        losses: newLosses,
+        draws: newDraws,
+        total_games: newTotalGames,
+        current_win_streak: newCurrentStreak,
+        best_win_streak: newBestStreak,
     }
 }
 
@@ -51,18 +69,49 @@ export default function RPSPage() {
     const botAnimRef = useRef(null)
 
     //initialize stats
-    const [stats, setStats] = useState({score: 0, winStreak: 0, wins: 0, total: 0,});
+    const [stats, setStats] = useState({
+        score: 0, wins: 0, losses: 0, draws: 0,
+        total_games: 0, current_win_streak: 0,
+        best_win_streak: 0, username: ""
+    })
+
+    useEffect(() => {
+        async function loadStats() {
+            const res = await fetch("/api/playerStats")
+            if (!res.ok) {
+                console.error("failed to load stats")
+                return
+            }
+            const data = await res.json()
+            // your route returns an array of rows; pick the first
+            if (Array.isArray(data) && data.length > 0) {
+                setStats(data[0])
+            }
+            console.log(data)
+        }
+        loadStats()
+    }, [])
 
     //this is the button handler for all of the different picks, goes through setting each choice, comparing, and updating
-    const handleChoice = (pick) => {
+    async function handleChoice(pick) {
         setPlayerChoice(pick) //set player pick
         const botPick = getRandomChoice() //get bot pick
         setBotChoice(botPick)
 
         playerAnimRef.current?.replay(pick) //replay whenever we click again
         botAnimRef.current?.replay(botPick)
+
         const result = determineResult(pick, botPick) //compare
-        setStats(prev => updateStats(prev, result)) //prev so we never read an empty stats obj
+        const newStats = updateStats(stats, result)
+
+        //update state
+        setStats(newStats)
+
+        await fetch("/api/playerStats", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newStats)
+        })
     }
 
     return (
@@ -113,11 +162,15 @@ export default function RPSPage() {
             {/* Current stats for the player, displaying them at the bottom of the page */}
             <div className="flex gap-6 text-[1.1rem]">
                 <p>Score: {stats.score}</p>
+                <p>Wins:  {stats.wins}</p>
+                <p>Losses:  {stats.losses}</p>
+                <p>Draws:  {stats.draws}</p>
                 <p>Win Rate:{' '}
                 {/* just have a - when no winrate yet*/}
-                {stats.total > 0 ? ((stats.wins / stats.total) * 100).toFixed(0) + '%' : '-'}
+                {stats.total_games > 0 ? ((stats.wins / stats.total_games) * 100).toFixed(0) + '%' : '-'}
                 </p>
-                <p>Win Streak: {stats.winStreak}</p>
+                <p> Best Win Streak: {stats.best_win_streak}</p>
+                <p> Current Win Streak: {stats.current_win_streak}</p>
             </div>
         </main>
 

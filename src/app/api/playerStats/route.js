@@ -29,12 +29,13 @@ export async function POST(request) {
     return Response.json({ error: 'User not logged in' }, { status: 500 });
   }
   const user = userData.user;
+  const username = user.email
 
   const { data: result, error: entryError } = await supabase.from('player_stats').select('*').eq('user_id', user.id)
   if (!result || result.length === 0) {
     const { data: postingResult, error: savingError } = await supabase.from('player_stats').insert({
         user_id: user.id,
-        username: res.username,
+        username: username,
         total_games: res.total_games,
         wins: res.wins,
         losses: res.losses,
@@ -49,7 +50,7 @@ export async function POST(request) {
       return Response.json({msg: "inserted player stats", postingResult});
   } else {
     const { data: updatedResult, error: updateError } = await supabase.from('player_stats').update({
-      username: res.username,
+      username: username,
       total_games: res.total_games,
       wins: res.wins,
       losses: res.losses,
