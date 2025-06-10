@@ -32,7 +32,9 @@ const ProfileCard = ({ displayType }) => {
 
   return (
     <div className={classType}>
-      <img src="https://newprofilepic.photo-cdn.net//assets/images/article/profile.jpg?90af0c8" className="self-center rounded-full max-w-20"/>
+      <div className="self-center w-24 h-24 rounded-full border-2 border-pink-500 flex items-center justify-center text-3xl mb-4">
+      👤
+      </div>
       <div className="self-center">Score: {stats.score}</div>
       <div className="self-center">Total: {stats.total_games}</div>
       <div className="self-center">Wins: {stats.wins}</div>
