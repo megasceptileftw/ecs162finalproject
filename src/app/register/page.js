@@ -21,8 +21,8 @@ export default function SignUpPage() {
     if (error) {
       alert(`Sign up failed: ${error.message}`);
     } else {
-     alert('Sign up successful! Redirecting to home page...');
-     router.push('/home');
+     alert('Please check your inbox to finish making your account');
+     router.push('/login');
     }
   }
 
