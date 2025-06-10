@@ -41,7 +41,7 @@ function updateStats(prev, result) {
     const newCurrentStreak = (result === "win") ? current_win_streak + 1 : 0
     const newBestStreak = Math.max(best_win_streak, newCurrentStreak)
 
-    // 3) score logic:
+    //score logic:
     let newScore = score
     if (result === "win")  newScore += 1
     if (result === "lose") newScore -= 1
@@ -83,7 +83,7 @@ export default function RPSPage() {
                 return
             }
             const data = await res.json()
-            // your route returns an array of rows; pick the first
+            //route returns an array of rows -pick the first
             if (Array.isArray(data) && data.length > 0) {
                 setStats(data[0])
             }
