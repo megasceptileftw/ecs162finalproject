@@ -23,7 +23,7 @@ export default function PostLoginHomePage() {
                 username: player.username,
                 score: player.score,
                 winRate,
-                streak: player.current_win_streak || 0,
+                streak: player.best_win_streak || 0,
               };
             })
   
