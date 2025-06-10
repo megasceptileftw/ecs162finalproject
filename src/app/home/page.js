@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import Navbar from "@/components/navbar";
+import { useEffect, useState } from 'react';
 
 export default function PostLoginHomePage() {
   const router = useRouter();
