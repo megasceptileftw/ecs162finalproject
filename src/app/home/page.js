@@ -63,7 +63,7 @@ export default function PostLoginHomePage() {
         </header>
 
         <main className="flex flex-col items-center space-y-12 z-10">
-          {/* Avatar */}
+          {/* Avatar (white image) */}
           <div className="relative">
             <Image
               src="/avatar.png"
@@ -75,7 +75,8 @@ export default function PostLoginHomePage() {
            
           </div>
 
-          {/* Play button */}
+          {/* PLAY BUTTON - pink play button */}
+          {/* Ported over from the pre-login home page */}
           <button
             onClick={() => router.push('/rps')}
             className="px-6 py-3 text-black bg-pink-500 rounded-lg text-lg font-bold hover:bg-pink-400
@@ -84,10 +85,14 @@ export default function PostLoginHomePage() {
             Play
           </button>
 
-          {/* Leaderboard Table */}
+
+          {/* leaderboard section
+          max width, styled border, spacing and text color */}
           <section className="w-full max-w-3xl border-2 border-pink-500 rounded-xl p-4 text-white mt-10">
             <h2 className="text-center text-xl text-green-400 font-bold mb-4">GLOBAL TOP 3</h2>
             <table className="w-full text-center text-sm">
+              {/* table header row
+              colored background, bold black text  */}
               <thead className="bg-pink-500 text-black font-bold">
                 <tr>
                   <th className="p-2">User</th>
@@ -96,6 +101,9 @@ export default function PostLoginHomePage() {
                   <th className="p-2">Streak</th>
                 </tr>
               </thead>
+
+              {/* table body
+              dark background, white text, pink lines between rows */}
               <tbody className="bg-black text-white divide-y divide-pink-800">
                 <tr>
                   <td className="p-2">🥇 {topThree[0].username}</td>
