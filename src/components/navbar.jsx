@@ -52,23 +52,35 @@ const Navbar = () => {
   return (
     <nav className='flex justify-between items-center border-2 min-w-full min-h-20 rounded-md pl-3 pr-3 sticky top-0 bg-[#0a0014]'>
         <button className='text-2xl font-semibold hover:text-blue-600 transition-colors
-        active:scale-95 focus:ring-2 hover:bg-gray-900 focus:outline-none focus:ring-blue-500 transition transform'
-         onClick={handleTitleClick} >Rock Paper Scissors</button>
-        <div className='flex justify-between gap-3 min-w-38'>
+          active:scale-95 focus:ring-2 hover:bg-gray-900 focus:outline-none focus:ring-blue-500 transition transform'
+          onClick={handleTitleClick}>
+          Rock Paper Scissors
+        </button>
+        <div className='flex justify-between gap-3 md:min-w-38'>
             <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3
-            active:scale-95 focus:ring-2 hover:bg-gray-900 focus:outline-none focus:ring-blue-500 transition transform'
-            onClick={goToRankings}>Rankings</button>
+              active:scale-95 focus:ring-2 hover:bg-gray-900 focus:outline-none focus:ring-blue-500 transition transform'
+              onClick={goToRankings}>
+              <span className='hidden md:inline'>Rankings</span>
+              <span className='md:hidden'>🏆</span>
+            </button>
+
             {user ? (
               <>
                 <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3
                 active:scale-95 focus:ring-2 hover:bg-gray-900 focus:outline-none focus:ring-blue-500 transition transform'
-                 onClick={toggleProfile}>Profile</button>
+                 onClick={toggleProfile}>
+                 <span className='hidden md:inline'>Profile</span>
+                 <span className='md:hidden'>👤</span>
+                </button>
                 <ProfileCard displayType={displayProfile}/>
               </>
             ) : (
               <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3
-              active:scale-95 focus:ring-2 hover:bg-gray-900 focus:outline-none focus:ring-blue-500 transition transform'
-               onClick={navigateLogin}>Login</button>
+                active:scale-95 focus:ring-2 hover:bg-gray-900 focus:outline-none focus:ring-blue-500 transition transform'
+                onClick={navigateLogin}>
+                <span className='hidden md:inline'>Login</span>
+                <span className='md:hidden'>🔒</span>
+              </button>
             )
         }
         </div>
