@@ -5,33 +5,46 @@ import Navbar from "@/components/navbar";
 import { useEffect, useState } from 'react';
 import Image from "next/image";
 
+// the main function for the home page after login
 export default function PostLoginHomePage() {
+
+  // set up the router so we can change pages
   const router = useRouter();
-  
+
+  // Set up a state to store top 3 players, w/ default info
   const [topThree, setTopThree] = useState([
       { username: 'player1', score: 0, winRate: '0%', streak: 0 },
       { username: 'player2', score: 0, winRate: '0%', streak: 0 },
       { username: 'player3', score: 0, winRate: '0%', streak: 0 },
     ]);
-  
+
+    // runs once when the page first loads
     useEffect(() => {
+      // get all player stats from the supabase
       fetch('/api/allPlayerStats')
+      // conver to json
         .then(res => res.json())
         .then(data => {
+          // go through each player and create a new object with info
           const sorted = data.map(player => {
+            // calculate win rate as a percent
               const winRate = (player.wins / (player.wins + player.losses + player.draws) * 100 ).toFixed(0) + '%';
+
               return {
                 username: player.username,
                 score: player.score,
-                winRate,
+                winRate, // how often they win
+                // longest win streak, or 0 if nothing there
                 streak: player.best_win_streak || 0,
               };
             })
-  
+
+          // save the list to the topThree state so it shows on the page
           setTopThree(sorted);
         });
     }, []);
 
+    // the part that shows up on the screen
   return (
     <>
       <Navbar />
