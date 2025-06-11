@@ -69,7 +69,7 @@ export default function HomePage() {
 
         {/* Leaderboard Table */}
         <section className="w-full max-w-3xl border-2 border-pink-500 rounded-xl p-4 text-white mt-10">
-          <h2 className="text-center text-xl text-green-400 font-bold mb-4">GLOBAL LEADERBOARD</h2>
+          <h2 className="text-center text-xl text-green-400 font-bold mb-4">GLOBAL TOP 3</h2>
           <table className="w-full text-center text-sm">
             <thead className="bg-pink-500 text-black font-bold">
               <tr>
