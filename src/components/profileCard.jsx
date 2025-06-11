@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 const ProfileCard = ({ displayType }) => {
   const router = useRouter();
-  let classType = `${displayType} flex-col justify-center absolute mt-18 border-2 p-6`
+  let classType = `${displayType} flex-col justify-center absolute mt-18 border-2 p-6 bg-[#0a0014] rounded-md`
 
   const [stats, setStats] = useState()
   useEffect(() => {

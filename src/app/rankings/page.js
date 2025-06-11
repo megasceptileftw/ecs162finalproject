@@ -20,9 +20,9 @@ export default function rankingsPage() {
       if (Array.isArray(data)) {
         const userEmail = data[0].username;
         setCurrentUser(userEmail);
-      } 
+      }
 
-        // fetches the data from the backend api route 
+        // fetches the data from the backend api route
         // instead of directly from supabase
         fetch('/api/allPlayerStats')
           .then((res) => res.json())
@@ -32,7 +32,7 @@ export default function rankingsPage() {
             const playerList = data.map((player, index) => {
               // calculate how many games they played,
               const totalGames = player.wins + player.losses + player.draws;
-              // and their win rate 
+              // and their win rate
               let winRate;
               if (totalGames > 0) {
                 winRate = player.wins / totalGames;
@@ -73,9 +73,8 @@ export default function rankingsPage() {
       <Navbar />
 
       {/* make separate divs for the screen and the contents  */}
-      {/* make the black background take up the whole screen */}
-      <div className="min-h-[calc(100vh-5rem)] bg-black px-4 py-10 text-white font-[var(--font-press-start)]">
-        {/* set the max width of the table to 64rem, or 1024 pixels, 
+      <div className="min-h-[calc(100vh-5rem)] px-4 py-10 text-white font-[var(--font-press-start)]">
+        {/* set the max width of the table to 64rem, or 1024 pixels,
             centered horizontally, black text */}
         <div className="max-w-5xl mx-auto">
           {/* large bold title */}
@@ -85,7 +84,7 @@ export default function rankingsPage() {
 
           {/* rounded edges and slight shadow for the chart */}
           <div className="overflow-x-auto rounded-2xl shadow-lg border border-pink-500 bg-black bg-opacity-50">
-            {/* make an html table: https://www.w3schools.com/html/html_tables.asp 
+            {/* make an html table: https://www.w3schools.com/html/html_tables.asp
                 make it span the whole width */}
             <table className="min-w-full">
               {/* set the background and text color, center it */}
@@ -99,7 +98,7 @@ export default function rankingsPage() {
                   <th className="p-3">GAMES PLAYED</th>
                 </tr>
               </thead>
-              {/* loop through the data using .map, and use it to fill out the cells in the row,  
+              {/* loop through the data using .map, and use it to fill out the cells in the row,
                   similar to here: https://www.geeksforgeeks.org/how-to-create-a-table-in-reactjs/ */}
               <tbody>
                 {players.map((player, index) => (

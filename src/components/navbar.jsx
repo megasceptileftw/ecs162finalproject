@@ -39,7 +39,7 @@ const Navbar = () => {
     };
     fetchUser();
   }, []);
-  
+
   function handleTitleClick() {
   if (user) {
     router.push('/home');
@@ -47,10 +47,10 @@ const Navbar = () => {
     router.push('/');
   }
 }
-  
+
 
   return (
-    <nav className='flex justify-between items-center border-2 min-w-full min-h-20 rounded-md pl-3 pr-3 sticky top-0 bg-black'>
+    <nav className='flex justify-between items-center border-2 min-w-full min-h-20 rounded-md pl-3 pr-3 sticky top-0 bg-[#0a0014]'>
         <button className='text-2xl font-semibold hover:text-blue-600 transition-colors
         active:scale-95 focus:ring-2 hover:bg-gray-900 focus:outline-none focus:ring-blue-500 transition transform'
          onClick={handleTitleClick} >Rock Paper Scissors</button>
@@ -66,7 +66,7 @@ const Navbar = () => {
                 <ProfileCard displayType={displayProfile}/>
               </>
             ) : (
-              <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3 
+              <button className='flex items-center border-2 max-h-10 rounded-sm text-base p-3
               active:scale-95 focus:ring-2 hover:bg-gray-900 focus:outline-none focus:ring-blue-500 transition transform'
                onClick={navigateLogin}>Login</button>
             )
