@@ -1,0 +1,201 @@
+"use client"
+import { useState, useRef, useEffect } from 'react'
+import ChoiceAnimation from "../components/animation"
+import Navbar from '@/components/navbar'
+
+const choices = ['rock', 'paper', 'scissors'] //string choices both for player and bot
+
+//for randomizing bot choice: pulled formula from here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+function getRandomChoice() {
+    const idx = Math.floor(Math.random() * 3)
+    return choices[idx]
+}
+
+//game logic hardcoded rps outvomes
+function determineResult(player, bot) {
+    if (player === bot) return 'draw'
+    if ((player === 'rock' && bot === 'scissors') || (player === 'paper' && bot === 'rock') || (player === 'scissors' && bot === 'paper')) {
+        return 'win'
+    }
+    return 'lose'
+}
+
+//takes in previous stats, update score/wins/winstreak etc and wwe get a whole new stats obj out of it
+function updateStats(prev, result) {
+    const {
+        username,
+        score,
+        wins,
+        losses,
+        draws,
+        total_games,
+        current_win_streak,
+        best_win_streak
+    } = prev
+
+    const newTotalGames = total_games + 1
+    const newWins = wins + (result === "win" ? 1 : 0)
+    const newLosses = losses + (result === "lose" ? 1 : 0)
+    const newDraws = draws + (result === "draw" ? 1 : 0)
+
+    const newCurrentStreak = (result === "win") ? current_win_streak + 1 : 0
+    const newBestStreak = Math.max(best_win_streak, newCurrentStreak)
+
+    // 3) score logic:
+    let newScore = score
+    if (result === "win")  newScore += 1
+    if (result === "lose") newScore -= 1
+    if (newScore < 0)      newScore = 0
+
+    return { //all updated stats
+        username: username,
+        score: newScore,
+        wins: newWins,
+        losses: newLosses,
+        draws: newDraws,
+        total_games: newTotalGames,
+        current_win_streak: newCurrentStreak,
+        best_win_streak: newBestStreak,
+    }
+}
+
+
+export default function RPSPage() {
+    // Initializing current state (null) and function to update state for player and bot
+    // Found this on w3schools tutorials for react: https://www.w3schools.com/react/react_usestate.asp
+    const [playerChoice, setPlayerChoice] = useState(null);
+    const [botChoice, setBotChoice] = useState(null);
+    const playerAnimRef = useRef(null)
+    const botAnimRef = useRef(null)
+
+    //initialize stats
+    const [stats, setStats] = useState({
+        score: 0, wins: 0, losses: 0, draws: 0,
+        total_games: 0, current_win_streak: 0,
+        best_win_streak: 0, username: ""
+    })
+
+    useEffect(() => {
+        async function loadStats() {
+            const res = await fetch("/api/playerStats")
+            if (!res.ok) {
+                console.error("failed to load stats")
+                return
+            }
+            const data = await res.json()
+            // your route returns an array of rows; pick the first
+            if (Array.isArray(data) && data.length > 0) {
+                setStats(data[0])
+            }
+            console.log(data)
+        }
+        loadStats()
+    }, [])
+
+    //this is the button handler for all of the different picks, goes through setting each choice, comparing, and updating
+    async function handleChoice(pick) {
+        setPlayerChoice(pick) //set player pick
+        const botPick = getRandomChoice() //get bot pick
+        setBotChoice(botPick)
+
+        playerAnimRef.current?.replay(pick) //replay whenever we click again
+        botAnimRef.current?.replay(botPick)
+
+        const result = determineResult(pick, botPick) //compare
+        const newStats = updateStats(stats, result)
+
+        //update state
+        setStats(newStats)
+
+        await fetch("/api/playerStats", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newStats)
+        })
+
+        // record the game for history
+        await fetch("/api/gameHistory", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                player_choice: pick,
+                bot_choice: botPick,
+                result: result
+            })
+        })
+    }
+
+    return (
+        <>
+          <Navbar />
+
+          {/* main layout
+           vertical stack, centered items, spaced evenly with padding */}
+          <main className="flex flex-col items-center justify-start p-8 gap-8">
+
+            {/* player and bot choices section
+             horizontal layout with spacing */}
+            <div className="flex gap-8 items-center">
+              <ChoiceAnimation ref={playerAnimRef} />
+              <p>Player selected: {playerChoice}</p>
+
+              <ChoiceAnimation ref={botAnimRef} />
+              <p>Bot selected: {botChoice}</p>
+            </div>
+
+            {/* buttons for Rock, Paper, Scissors
+             laid out horizontally with space */}
+            <div className="flex gap-4">
+
+              {/* rock button
+               styled with custom colors and interaction effects  */}
+              <button
+                type="button"
+                className="py-3 px-5 text-[1rem] text-[#00FF00] border-none rounded bg-[#cc00cc]
+                active:scale-95 focus:ring-2 hover:bg-[#FF00FF] focus:outline-none focus:ring-blue-500 transform"
+                onClick={() => handleChoice("rock")}
+              >
+                Rock
+              </button>
+
+              {/* paper button
+               different custom color styling and effects  */}
+              <button
+                type="button"
+                className="py-3 px-5 text-[1rem] text-[#FF00FF] border-none rounded bg-[#00cccc]
+                active:scale-95 focus:ring-2 hover:bg-[#00FFFF] focus:outline-none focus:ring-blue-500 transform"
+                onClick={() => handleChoice("paper")}
+              >
+                Paper
+              </button>
+
+              {/* scissors button
+               styled similarly with different color scheme  */}
+              <button
+                type="button"
+                className="py-3 px-5 text-[1rem] text-[#00FFFF] border-none rounded bg-[#cc7e00]
+                active:scale-95 focus:ring-2 hover:bg-[#FF9D00] focus:outline-none focus:ring-blue-500 transform"
+                onClick={() => handleChoice("scissors")}
+              >
+                Scissors
+              </button>
+            </div>
+
+            {/* stats section
+             wraps on small screens, centered, spaced evenly, responsive text size */}
+            <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-sm md:text-[1.1rem] max-w-4xl">
+              <div>Score: <br />{stats.score}</div>
+              <div>Wins: <br />{stats.wins}</div>
+              <div>Losses: <br />{stats.losses}</div>
+              <div>Draws: <br />{stats.draws}</div>
+              <div>Win Rate:<br />
+                {/* just have a - when no winrate yet */}
+                {stats.total_games > 0 ? ((stats.wins / stats.total_games) * 100).toFixed(0) + '%' : '-'}
+              </div>
+              <div>Best Win Streak: <br />{stats.best_win_streak}</div>
+              <div>Current Win Streak: <br />{stats.current_win_streak}</div>
+            </div>
+          </main>
+        </>
+    );
+}

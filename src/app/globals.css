@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
+
+main {
+  background-color: transparent;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0014;
+  --foreground: #00ff66;
 }
 
 @theme inline {
@@ -12,15 +17,22 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* removed dark mode override */
+
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /*font-family: Arial, Helvetica, sans-serif;*/
+  /*font-family: 'Press Start 2P', monospace;*/
+  font-family: var(--font-press-start);
+}
+
+button {
+  cursor: pointer;
+}
+
+table {
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
 }

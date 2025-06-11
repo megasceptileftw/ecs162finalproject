@@ -1,103 +1,129 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from "next/image";
+import Link from "next/link";
+import Navbar from "@/components/navbar";
+import { useRouter } from 'next/navigation';
 
-export default function Home() {
+// the main function for the home page after login
+export default function HomePage() {
+  // set up the router so we can change pages
+  const router = useRouter();
+
+  // Set up a state to store top 3 players, w/ default info
+  const [topThree, setTopThree] = useState([
+    { username: 'player1', score: 0, winRate: '0%', streak: 0 },
+    { username: 'player2', score: 0, winRate: '0%', streak: 0 },
+    { username: 'player3', score: 0, winRate: '0%', streak: 0 },
+  ]);
+
+  // runs once when the page first loads
+  useEffect(() => {
+    // get all player stats from the supabase
+    fetch('/api/allPlayerStats')
+    // conver to json
+      .then(res => res.json())
+      .then(data => {
+        // go through each player and create a new object with info
+        const sorted = data.map(player => {
+          // calculate win rate as a percent
+            const winRate = (player.wins / (player.wins + player.losses + player.draws) * 100 ).toFixed(0) + '%';
+            return {
+              username: player.username,
+              score: player.score,
+              winRate, // how often they win
+              // longest win streak, or 0 if nothing there
+              streak: player.best_win_streak || 0,
+            };
+          })
+        
+        // save the list to the topThree state so it shows on the page
+        setTopThree(sorted);
+      });
+  }, []);
+
+  // the part that shows up on the screen
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <> <Navbar />
+    {/* main page layout
+     full screen height, column layout, center items, spacing/padding */}
+      <main className="min-h-screen flex flex-col items-center justify-start px-6 py-10 text-foreground font-[var(--font-geist-sans)]">
+        {/* section with title, icons, and login button
+         centered and spaced vertically */}
+        <div className="flex flex-col items-center justify-center text-center mb-12">
+          {/* big page title */}
+          <h1 className="text-4xl font-bold mb-4">Rock Paper Scissors</h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* icons row
+           spaced apart horizontally  */}
+          <div className="flex gap-8 my-6">
+            <Image src="/rock.png" alt="Rock" width={64} height={64} />
+            <Image src="/paper.png" alt="Paper" width={64} height={64} />
+            <Image src="/scissors.png" alt="Scissors" width={64} height={64} />
+          </div>
+
+          {/* game description text, limited width, some margin  */}
+          <p className="text-lg max-w-md mb-6">
+            Ultimate rock paper scissors game! Track your score and play bots!
+          </p>
+
+          {/* login button, bright, rounded, with hover/focus effects */}
+          <button
+            onClick={() => router.push('/login')}
+            className="px-6 py-3 text-black bg-pink-500 rounded-lg text-lg font-bold hover:bg-pink-400
+            active:scale-95 focus:ring-2 hover:bg-pink-400 focus:outline-none focus:ring-blue-500 transition transform"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Login to Play
+          </button>
         </div>
+
+
+        
+
+        {/* leaderboard section
+         max width, styled border, spacing and text color */}
+        <section className="w-full max-w-3xl border-2 border-pink-500 rounded-xl p-4 text-white mt-10">
+          <h2 className="text-center text-xl text-green-400 font-bold mb-4">GLOBAL TOP 3</h2>
+          <table className="w-full text-center text-sm">
+            {/* table header row
+             colored background, bold black text  */}
+            <thead className="bg-pink-500 text-black font-bold">
+              <tr>
+                <th className="p-2">User</th>
+                <th className="p-2">Score</th>
+                <th className="p-2">Win Rate</th>
+                <th className="p-2">Streak</th>
+              </tr>
+            </thead>
+
+            {/* table body
+             dark background, white text, pink lines between rows */}
+            <tbody className="bg-black text-white divide-y divide-pink-800">
+              <tr>
+                <td className="p-2">🥇 {topThree[0].username}</td>
+                <td className="p-2">{topThree[0].score}</td>
+                <td className="p-2">{topThree[0].winRate}</td>
+                <td className="p-2">{topThree[0].streak}</td>
+              </tr>
+              <tr>
+                <td className="p-2">🥈 {topThree[1].username}</td>
+                <td className="p-2">{topThree[1].score}</td>
+                <td className="p-2">{topThree[1].winRate}</td>
+                <td className="p-2">{topThree[1].streak}</td>
+              </tr>
+              <tr>
+                <td className="p-2">🥉 {topThree[2].username}</td>
+                <td className="p-2">{topThree[2].score}</td>
+                <td className="p-2">{topThree[2].winRate}</td>
+                <td className="p-2">{topThree[2].streak}</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+    </>
   );
 }
