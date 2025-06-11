@@ -37,7 +37,7 @@ function updateStats(prev, result) {
     const newWins = wins + (result === "win" ? 1 : 0)
     const newLosses = losses + (result === "lose" ? 1 : 0)
     const newDraws = draws + (result === "draw" ? 1 : 0)
-    
+
     const newCurrentStreak = (result === "win") ? current_win_streak + 1 : 0
     const newBestStreak = Math.max(best_win_streak, newCurrentStreak)
 
@@ -46,7 +46,7 @@ function updateStats(prev, result) {
     if (result === "win")  newScore += 1
     if (result === "lose") newScore -= 1
     if (newScore < 0)      newScore = 0
-    
+
     return { //all updated stats
         username: username,
         score: newScore,
@@ -174,17 +174,17 @@ export default function RPSPage() {
             </div>
 
             {/* Current stats for the player, displaying them at the bottom of the page */}
-            <div className="flex gap-6 text-[1.1rem]">
-                <p>Score: {stats.score}</p>
-                <p>Wins:  {stats.wins}</p>
-                <p>Losses:  {stats.losses}</p>
-                <p>Draws:  {stats.draws}</p>
-                <p>Win Rate:{' '}
+            <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-sm md:text-[1.1rem] max-w-4xl">
+                <div>Score: <br/>{stats.score}</div>
+                <div>Wins: <br/>{stats.wins}</div>
+                <div>Losses: <br/>{stats.losses}</div>
+                <div>Draws: <br/>{stats.draws}</div>
+                <div>Win Rate:{' '} <br/>
                 {/* just have a - when no winrate yet*/}
                 {stats.total_games > 0 ? ((stats.wins / stats.total_games) * 100).toFixed(0) + '%' : '-'}
-                </p>
-                <p> Best Win Streak: {stats.best_win_streak}</p>
-                <p> Current Win Streak: {stats.current_win_streak}</p>
+                </div>
+                <div> Best Win Streak: <br/>{stats.best_win_streak}</div>
+                <div> Current Win Streak: <br/>{stats.current_win_streak}</div>
             </div>
         </main>
 

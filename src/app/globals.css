@@ -28,6 +28,10 @@ body {
   font-family: var(--font-press-start);
 }
 
+button {
+  cursor: pointer;
+}
+
 table {
   background: rgba(0, 0, 0, 0.6);
   color: white;
