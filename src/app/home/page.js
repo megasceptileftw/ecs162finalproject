@@ -2,45 +2,98 @@
 
 import { useRouter } from 'next/navigation';
 import Navbar from "@/components/navbar";
+import { useEffect, useState } from 'react';
+import Image from "next/image";
 
+// the main function for the home page after login
 export default function PostLoginHomePage() {
+
+  // set up the router so we can change pages
   const router = useRouter();
-``
+
+  // Set up a state to store top 3 players, w/ default info
+  const [topThree, setTopThree] = useState([
+      { username: 'player1', score: 0, winRate: '0%', streak: 0 },
+      { username: 'player2', score: 0, winRate: '0%', streak: 0 },
+      { username: 'player3', score: 0, winRate: '0%', streak: 0 },
+    ]);
+
+    // runs once when the page first loads
+    useEffect(() => {
+      // get all player stats from the supabase
+      fetch('/api/allPlayerStats')
+      // conver to json
+        .then(res => res.json())
+        .then(data => {
+          // go through each player and create a new object with info
+          const sorted = data.map(player => {
+            // calculate win rate as a percent
+              const winRate = (player.wins / (player.wins + player.losses + player.draws) * 100 ).toFixed(0) + '%';
+
+              return {
+                username: player.username,
+                score: player.score,
+                winRate, // how often they win
+                // longest win streak, or 0 if nothing there
+                streak: player.best_win_streak || 0,
+              };
+            })
+
+          // save the list to the topThree state so it shows on the page
+          setTopThree(sorted);
+        });
+    }, []);
+
+    // the part that shows up on the screen
   return (
     <>
       <Navbar />
+      
+      <main className="min-h-screen flex flex-col items-center justify-start px-6 py-10 text-foreground font-[var(--font-geist-sans)]">
 
-    <main className="min-h-screen flex flex-col items-center justify-between px-6 py-10 text-black bg-white">
+        <div className="flex flex-col items-center justify-center text-center mb-12">
 
-      {/* User avatar + welcome */}
-      <div className="flex flex-col items-center gap-4 mb-10">
-        {/* Avatar circle */}
-        <div className="w-24 h-24 rounded-full border-2 border-gray-400 flex items-center justify-center text-3xl">
-          👤
+          
         </div>
+        {/* CENTER TITLE */}
+        <header className="my-8">
+          <h1 className="text-4xl font-bold mb-4">
+            WELCOME, USER
+          </h1>
+        </header>
 
-        <p className="text-lg font-medium">Welcome, User</p>
+        <main className="flex flex-col items-center space-y-12 z-10">
+          {/* Avatar (white image) */}
+          <div className="relative">
+            <Image
+              src="/avatar.png"
+              width={192}
+              height={192}
+              alt="User avatar"
+              className="rounded-full border-4 border-pink-500 shadow-lg"
+            />
+           
+          </div>
 
-        <button
-          onClick={() => router.push('/rps')}
-          className="mt-2 px-8 py-4 text-xl bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
-        >
-          Play
-        </button>
-      </div>
+          {/* PLAY BUTTON - pink play button */}
+          {/* Ported over from the pre-login home page */}
+          <button
+            onClick={() => router.push('/rps')}
+            className="px-6 py-3 text-black bg-pink-500 rounded-lg text-lg font-bold hover:bg-pink-400
+            active:scale-95 focus:ring-2 hover:bg-pink-400 focus:outline-none focus:ring-blue-500 transition transform"
+          >
+            Play
+          </button>
 
-      {/* Divider */}
-      <hr className="my-8 w-full max-w-3xl border-t border-gray-300" />
 
-      {/* Leaderboard Table */}
-        <section className="w-full max-w-4xl pb-12">
-          <h2 className="text-center text-2xl font-semibold mb-4">Global Leaderboard</h2>
-          <div className="overflow-x-auto">
-            <table
-              className="w-full table-auto bg-white  text-sm rounded shadow border border-gray-300  text-black "
-              aria-label="Top 10 leaderboard"
-            >
-              <thead className="bg-gray-200  text-left">
+          {/* leaderboard section
+          max width, styled border, spacing and text color */}
+          <section className="w-full max-w-3xl border-2 border-pink-500 rounded-xl p-4 text-white mt-10">
+            <h2 className="text-center text-xl text-green-400 font-bold mb-4">GLOBAL TOP 3</h2>
+            <table className="w-full text-center text-sm">
+              {/* table header row
+              colored background, bold black text  */}
+              <thead className="bg-pink-500 text-black font-bold">
                 <tr>
                   <th className="p-2">User</th>
                   <th className="p-2">Score</th>
@@ -48,20 +101,35 @@ export default function PostLoginHomePage() {
                   <th className="p-2">Streak</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 ">
-                <tr className="hover:bg-gray-50 transition">
-                  <td className="p-2">User1</td>
-                  <td className="p-2">20</td>
-                  <td className="p-2">75.5%</td>
-                  <td className="p-2">150</td>
+
+              {/* table body
+              dark background, white text, pink lines between rows */}
+              <tbody className="bg-black text-white divide-y divide-pink-800">
+                <tr>
+                  <td className="p-2">🥇 {topThree[0].username}</td>
+                  <td className="p-2">{topThree[0].score}</td>
+                  <td className="p-2">{topThree[0].winRate}</td>
+                  <td className="p-2">{topThree[0].streak}</td>
                 </tr>
-                {/* Add more rows dynamically later */}
+                <tr>
+                  <td className="p-2">🥈 {topThree[1].username}</td>
+                  <td className="p-2">{topThree[1].score}</td>
+                  <td className="p-2">{topThree[1].winRate}</td>
+                  <td className="p-2">{topThree[1].streak}</td>
+                </tr>
+                <tr>
+                  <td className="p-2">🥉 {topThree[2].username}</td>
+                  <td className="p-2">{topThree[2].score}</td>
+                  <td className="p-2">{topThree[2].winRate}</td>
+                  <td className="p-2">{topThree[2].streak}</td>
+                </tr>
               </tbody>
             </table>
-          </div>
-        </section>
-    </main>
+          </section>
 
+
+        </main>
+      </main>
     </>
   );
 }
