@@ -28,6 +28,8 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
     "jest": "^30.0.0",
-    "tailwindcss": "^4"
+    "jest-environment-jsdom": "^30.0.0",
+    "tailwindcss": "^4",
+    "undici": "^7.10.0"
   }
 }
