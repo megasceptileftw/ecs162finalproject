@@ -1,5 +1,5 @@
 /*
-UNIT TESTER
+UNIT TESTER FRONTEND
 page.test.js
 */
 
@@ -111,11 +111,6 @@ test('TEST LOGIN successful - correct login', async () => {
   });
 });
 
-// ============================================
-// TEST LOGIN - Failed Login
-// src/app/login 
-// ============================================
-
 
 /*
 SOURCES:
@@ -125,6 +120,9 @@ https://nextjs.org/docs/app/guides/testing/jest
 
 Expect jest
 https://jestjs.io/docs/expect
+
+For Mock
+https://stackoverflow.com/questions/58884397/jest-mock-intersectionobserver
 
 
 */

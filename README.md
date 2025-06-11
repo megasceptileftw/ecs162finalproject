@@ -4,9 +4,10 @@ Rock Paper Scissors game that uses the next.js framework. Features login, supaba
 
 ## HOW TO RUN
 Run these commands:
-1) ``npm install``
-2) ``npm run dev``
+1) `npm install`
+2) `npm run dev`
+3) Go to `http://localhost:3000` on your browser
 
 ## HOW TO TEST
 Run this command:
-- ``npm test``
+- `npm test`
