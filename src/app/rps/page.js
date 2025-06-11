@@ -127,67 +127,75 @@ export default function RPSPage() {
 
     return (
         <>
+          <Navbar />
 
-        <Navbar />
+          {/* main layout
+           vertical stack, centered items, spaced evenly with padding */}
+          <main className="flex flex-col items-center justify-start p-8 gap-8">
 
-        <main className="flex flex-col items-center justify-start p-8 gap-8">
-            {/* Images and text for selections in rps */}
+            {/* player and bot choices section
+             horizontal layout with spacing */}
             <div className="flex gap-8 items-center">
-                {/* Player choice image will fill with assets later*/}
-                {/* {<img src={`${playerChoice}.png`}/>} */}
-                <ChoiceAnimation ref={playerAnimRef}/>
-                <p>Player selected: {playerChoice}</p>
+              <ChoiceAnimation ref={playerAnimRef} />
+              <p>Player selected: {playerChoice}</p>
 
-                {/* Bot choice image - same */}
-                {/* {<img src={`${botChoice}.png`}/>} */}
-                <ChoiceAnimation ref={botAnimRef}/>
-                <p>Bot selected: {botChoice}</p>
-
-                {/* Underneath imgs probably include text declaring the winner */}
+              <ChoiceAnimation ref={botAnimRef} />
+              <p>Bot selected: {botChoice}</p>
             </div>
 
-            {/* Game of rock-paper-scissors */}
+            {/* buttons for Rock, Paper, Scissors
+             laid out horizontally with space */}
             <div className="flex gap-4">
-                {/* Button for choosing rock */}
-                <button
+
+              {/* rock button
+               styled with custom colors and interaction effects  */}
+              <button
                 type="button"
                 className="py-3 px-5 text-[1rem] text-[#00FF00] border-none rounded bg-[#cc00cc]
                 active:scale-95 focus:ring-2 hover:bg-[#FF00FF] focus:outline-none focus:ring-blue-500 transform"
                 onClick={() => handleChoice("rock")}
-                >Rock</button>
+              >
+                Rock
+              </button>
 
-                {/* Button for choosing paper */}
-                <button
+              {/* paper button
+               different custom color styling and effects  */}
+              <button
                 type="button"
                 className="py-3 px-5 text-[1rem] text-[#FF00FF] border-none rounded bg-[#00cccc]
                 active:scale-95 focus:ring-2 hover:bg-[#00FFFF] focus:outline-none focus:ring-blue-500 transform"
                 onClick={() => handleChoice("paper")}
-                >Paper</button>
+              >
+                Paper
+              </button>
 
-                {/* Button for choosing Scissors */}
-                <button
+              {/* scissors button
+               styled similarly with different color scheme  */}
+              <button
                 type="button"
                 className="py-3 px-5 text-[1rem] text-[#00FFFF] border-none rounded bg-[#cc7e00]
                 active:scale-95 focus:ring-2 hover:bg-[#FF9D00] focus:outline-none focus:ring-blue-500 transform"
                 onClick={() => handleChoice("scissors")}
-                >Scissors</button>
+              >
+                Scissors
+              </button>
             </div>
 
-            {/* Current stats for the player, displaying them at the bottom of the page */}
+            {/* stats section
+             wraps on small screens, centered, spaced evenly, responsive text size */}
             <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-sm md:text-[1.1rem] max-w-4xl">
-                <div>Score: <br/>{stats.score}</div>
-                <div>Wins: <br/>{stats.wins}</div>
-                <div>Losses: <br/>{stats.losses}</div>
-                <div>Draws: <br/>{stats.draws}</div>
-                <div>Win Rate:{' '} <br/>
-                {/* just have a - when no winrate yet*/}
+              <div>Score: <br />{stats.score}</div>
+              <div>Wins: <br />{stats.wins}</div>
+              <div>Losses: <br />{stats.losses}</div>
+              <div>Draws: <br />{stats.draws}</div>
+              <div>Win Rate:<br />
+                {/* just have a - when no winrate yet */}
                 {stats.total_games > 0 ? ((stats.wins / stats.total_games) * 100).toFixed(0) + '%' : '-'}
-                </div>
-                <div> Best Win Streak: <br/>{stats.best_win_streak}</div>
-                <div> Current Win Streak: <br/>{stats.current_win_streak}</div>
+              </div>
+              <div>Best Win Streak: <br />{stats.best_win_streak}</div>
+              <div>Current Win Streak: <br />{stats.current_win_streak}</div>
             </div>
-        </main>
-
+          </main>
         </>
     );
 }

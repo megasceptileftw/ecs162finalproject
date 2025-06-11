@@ -5,30 +5,46 @@ import { useEffect, useState } from 'react';
 
 // match history page, based on leaderboard page
 export default function historyPage() {
+  // set up state to store the current user's name
   const [currentUser, setCurrentUser] = useState('You');
+  // set up state to store the list of match history data
   const [historyData, setHistoryData] = useState([]);
 
+  // use useEffect to run once, after the page loads
   useEffect(() => {
 
+    // first, get the current user's info from the server
     fetch('/api/playerStats')
+      // Convert the response to json
       .then(res => res.json())
       .then(data => {
 
+        // save the user's email from the response
         const userEmail = data[0].username;
         setCurrentUser(userEmail);
 
-        // then fetch match history
+        // get the match history data from the supabase
         fetch('/api/gameHistory')
+        // convert this to json too
           .then(res => res.json())
           .then(data => {
+            // sort the matches so the most recent one is first
             data.sort((a, b) => new Date(b.played_at) - new Date(a.played_at));
+
+            // create a new list of matches with easier to read info
             const listHistory = data.map((game, index) => ({
-              match: index + 1,
-              username: userEmail,
-              opponent: 'Bot',
+              match: index + 1, // match number
+              username: userEmail, // users name
+              opponent: 'Bot', // always against the bot
+              // win or lose and the choices, use toUpperCase to convert to upper case
+              // https://www.w3schools.com/jsref/jsref_touppercase.asp
               result: `${game.result.toUpperCase()} (${game.player_choice} vs ${game.bot_choice})`,
+              // format the date using toLocaleString
+              // https://www.w3schools.com/jsref/jsref_tolocalestring.asp
               date: new Date(game.played_at).toLocaleString('en-US'),
             }));
+
+            // save the match history list to show on the page
             setHistoryData(listHistory);
           });
       });

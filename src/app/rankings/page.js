@@ -14,7 +14,9 @@ export default function rankingsPage() {
 
   // runs once when the page loads, is used to get data from database
   useEffect(() => {
+    // get the current user info from the server
     fetch('/api/playerStats')
+    // Convert the response to json
       .then(res => res.json())
       .then(data => {
       if (Array.isArray(data)) {
@@ -25,6 +27,7 @@ export default function rankingsPage() {
         // fetches the data from the backend api route
         // instead of directly from supabase
         fetch('/api/allPlayerStats')
+        // convert the response to json
           .then((res) => res.json())
           // takes the data we got and reformat for our table
           .then((data) => {
