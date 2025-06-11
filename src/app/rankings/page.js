@@ -19,8 +19,12 @@ export default function rankingsPage() {
     // Convert the response to json
       .then(res => res.json())
       .then(data => {
+      // check if the data is an array
+      // https://www.w3schools.com/jsref/jsref_isarray.asp
       if (Array.isArray(data)) {
+        // get the first one and read the username from it
         const userEmail = data[0].username;
+        // set the username as the current user
         setCurrentUser(userEmail);
       }
 
