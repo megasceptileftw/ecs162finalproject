@@ -44,7 +44,7 @@ const Navbar = () => {
       try { // try to get the current user
         const { data: { user } } = await supabase.auth.getUser();
         setUser(user);
-      } catch { // show error if there's a problem
+      } catch(error) { // show error if there's a problem
         console.error('Error fetching user:', error);
         setUser(null); // user is set to null if there's an error
       }
